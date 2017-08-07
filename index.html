@@ -2,6 +2,7 @@
 <head>
 	<title>D3 Barchart</title>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<style>
 
@@ -36,7 +37,7 @@
 				<h1 class="text-center">U.S. GDP Barchart</h1>
 				<div id="chart"></div>
 				<p id="description"></p>
-				<p></p>
+				<p>Github repository found at : <a href="https://github.com/ncabelin/d3-gdp-barchart.git">https://github.com/ncabelin/d3-gdp-barchart.git</a></p>
 			</div>
 		</div>
 	</div>
@@ -57,8 +58,16 @@ $(document).ready(function() {
 							.attr("class", "tooltip")
 							.style("opacity", 0);
 
+		var w = function() {
+				var width = window.innerWidth - 50;
+				if (width > 800) {
+					return 800;
+				}
+				return width;
+			};
+
 		var margin = {top: 5, right: 10, bottom: 30, left: 75},
-		    width = 800 - margin.left - margin.right,
+		    width = w() - margin.left - margin.right,
 		    height = 500 - margin.top - margin.bottom;
 
 		var x = d3.time.scale()
@@ -123,8 +132,8 @@ $(document).ready(function() {
 					d3.select(this).style("fill","orange");
 					div.transition().duration(100).style("opacity", 1);
 					var index = months.indexOf(month);
-					div.html("<div class='well'><p>" + months[month-1] + " " + year + "</p><p>"
-						+ numberWithCommas(Math.floor(d[1])) +" billion $</p></div>")
+					div.html("<div class='well'><p>" + months[month-1] + " " + year + "</p><p>$ "
+						+ numberWithCommas(Math.floor(d[1])) +" billion</p></div>")
 						.style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY - 150) + "px");
 				})
