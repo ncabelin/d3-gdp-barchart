@@ -51,13 +51,15 @@ $(document).ready(function() {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
 
-	var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 	function renderBar(data) {
+		// div to render bar labels with
 		var div = d3.select(".container").append("div")
 							.attr("class", "tooltip")
 							.style("opacity", 0);
 
+		// returns width with max-width of 800px
 		var w = function() {
 				var width = window.innerWidth - 50;
 				if (width > 800) {
@@ -89,6 +91,7 @@ $(document).ready(function() {
 		    .orient("left")
 		    .ticks(10, "");
 
+		// generate chart
 		var svg = d3.select("#chart").append("svg")
 		    .attr("width", width + margin.left + margin.right)
 		    .attr("height", height + margin.top + margin.bottom)
@@ -96,6 +99,7 @@ $(document).ready(function() {
 		    .attr("transform",
 		          "translate(" + margin.left + "," + margin.top + ")");
 
+		// add x axis with ticks
 	  svg.append("g")
 	      .attr("class", "x axis")
 	      .attr("transform", "translate(0," + height + ")")
@@ -106,6 +110,7 @@ $(document).ready(function() {
 	      .attr("dy", "-.55em")
 	      .attr("transform", "rotate(-90)" );
 
+		// add y axis with ticks
 	  svg.append("g")
 	      .attr("class", "y axis")
 	      .call(yAxis)
@@ -116,6 +121,7 @@ $(document).ready(function() {
 	      .style("text-anchor", "end")
 	      .text("GDP ($)");
 
+		// all bars
 	  svg.selectAll("bar")
 	      .data(data)
 	    .enter().append("rect")
@@ -146,12 +152,12 @@ $(document).ready(function() {
 
 	}
 	$.ajax({
-	  type: 'GET',
-	  url: 'https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json',
-		dataType: 'json'
+	  type: "GET",
+	  url: "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json",
+		dataType: "json"
 	}).done(function(data) {
 	  renderBar(data.data);
-		$('#description').text(data.description);
+		$("#description").text(data.description);
 	}).fail(function(err) {
 	  console.log(err);
 	});
